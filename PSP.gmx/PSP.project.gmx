@@ -8,6 +8,26 @@
   <sprites name="sprites"/>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\scrSetElementDetail.gml</script>
+    <script>scripts\scrGetElementDetail.gml</script>
+    <script>scripts\scrGet1DArrayIndex.gml</script>
+    <script>scripts\clr.gml</script>
+    <script>scripts\fnt.gml</script>
+    <script>scripts\scrGetColorFromElementType.gml</script>
+    <script>scripts\scrTransformTable.gml</script>
+    <script>scripts\mouse_in.gml</script>
+  </scripts>
+  <fonts name="fonts">
+    <font>fonts\fntArial</font>
+    <font>fonts\fntArialBold</font>
+  </fonts>
+  <objects name="objects">
+    <object>objects\oController</object>
+  </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
