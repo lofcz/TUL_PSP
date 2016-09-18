@@ -64,6 +64,65 @@ scrSetElementDetail(0, detailsEnum.elementType, "non-metal");
 
 scrTransformTable();
 
+//http_get("
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="62">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Get and decode JSON
+
+show_message("ew");
+
+json = async_load[? "result"];
+map = json_decode(json);
+
+if (map == -1) {show_message("Wiki API is down");}
+
+if (ds_map_exists(map, "HYDROGEN"))
+    {
+     
+ //    q = ds_map_find_next(map, "HYDROGEN");
+     //ds_map_read
+  //   show_message(q);
+    }
+    
+var resultMap = map;
+ var list = ds_map_find_value(resultMap, "HYDROGEN");
+ var size = ds_list_size(list);
+ show_message(size);
+ for (var n = 0; n &lt; ds_list_size(list); n++;)
+    {
+    var map = ds_list_find_value(list, n);
+    var curr = ds_map_find_first(map);
+    while (is_string(curr))
+       {
+       global.Name[n] = ds_map_find_value(map, "atomic_weight");
+       show_message(" " + global.Name[n]);
+       curr = ds_map_find_next(map, curr);
+       } 
+    ds_map_destroy(map);
+    }
+ ds_list_destroy(list);
+ ds_map_destroy(resultMap);
 </string>
           </argument>
         </arguments>
@@ -128,7 +187,10 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
                  // Click event
                  if (device_mouse_check_button_pressed(0, mb_left))
                     {
-                     scrTransformTable(x, y, 16);
+                     scrTransformTable(x + 600, yy, 16);
+                     scrDrawDetails(i);
+                 //    oCamera.xx = mouse_x + view_xview;
+                   // oCamera.yy = mouse_y + view_yview;
                     }
                 }
                 
@@ -142,9 +204,9 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
      xx  = x;
     }
   
-if (abs(ts-pTableRecSize) &gt; 0.1)
+if (abs(ts-pTableRecSize) &gt; 0.1 || distance_to_point(tx, ty) &gt; 1)
     {
-     //if (distance_to_point(tx, ty) &gt; 0) {move_towards_point(tx, ty, }
+     if (distance_to_point(tx, ty) &gt; 1) {x = lerp(x, tx, 0.1);}
      pTableRecSize = lerp(pTableRecSize, ts, 0.1);
     }
 </string>
