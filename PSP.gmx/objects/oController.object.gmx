@@ -234,6 +234,109 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
      for (j = 0; j &lt; 18; j++) // Rows
         {
          index = scrGet1DArrayIndex(i, j);
+         
+         // Draw special
+             if (index == 21)
+             {
+             clr(c_alkalicMetal, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Alkalické#kovy");
+             }
+             
+             }
+             
+             if (index == 22)
+             {
+             clr(c_special, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Kovy#alkalických#zemin");
+             }
+             
+             }
+             if (index == 23)
+             {
+             clr(c_metal, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Přechodné#kovy");
+             }
+             
+             }    
+             
+             if (index == 24)
+             {
+             clr(c_alkalicMetalGround, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Kovy");
+             }
+             
+             }   
+             
+             if (index == 25)
+             {
+             clr(c_metalloid, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Polokovy");
+             }
+             }
+             
+             if (index == 26)
+             {
+             clr(c_nonMetal, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Nekovy");
+             }
+             
+             }   
+             if (index == 27)
+             {
+             clr(c_halogenid, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Halogeny");
+             }
+             
+             }   
+             
+             if (index == 28)
+             {
+             clr(c_gas, tableAlpha);
+             draw_rectangle(xx, yy, xx + pTableRecSize , yy + pTableRecSize, false);
+             clr(c_black, tableAlpha);
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             draw_text(xx, yy, "Vzácné#plyny");
+             }
+             
+             }                                       
+                   
          // Draw only if index is element
          if (scrGetElementDetail(index, detailsEnum.isElement))
             {
@@ -248,9 +351,7 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
              draw_rectangle_colour(xx, yy, xx + pTableRecSize, yy + pTableRecSize, c_green, c_green, c_green, c_green, false);             
              }
               draw_set_alpha(tableAlpha);
-             draw_rectangle_width(xx, yy, xx + pTableRecSize, yy + pTableRecSize, true, 1);
-             
-
+             draw_rectangle_width(xx, yy, xx + pTableRecSize, yy + pTableRecSize, true, 1);            
              
              // Hover event
              if (mouse_in(xx, yy, xx + pTableRecSize, yy + pTableRecSize))
@@ -313,9 +414,9 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
          xx += pTableRecSize;
         }
      yy += pTableRecSize;
-     xx  = x;
+     xx = x;
     }
-  
+      
 if (abs(ts-pTableRecSize) &gt; 0.1 || distance_to_point(tx, ty) &gt; 1)
     {
      if (distance_to_point(tx, ty) &gt; 1) {x = lerp(x, tx, 0.1);}
