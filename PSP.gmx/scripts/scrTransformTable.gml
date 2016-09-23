@@ -3,7 +3,7 @@
 var tx, ty, ts;
 tx = x;
 ty = y;
-ts = 48;
+ts = 64;
 
 if (argument_count > 0) {tx = argument[0];}
 if (argument_count > 1) {ty = argument[1];}

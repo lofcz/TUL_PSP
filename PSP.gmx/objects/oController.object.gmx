@@ -29,12 +29,47 @@
 
 enum detailsEnum
 {
-name, number, tag, isElement, bacColor, elementType
+name, number, tag, isElement, bacColor, elementType, molarMass, overallAlpha
 }
 
-pTable        = ds_grid_create(18, 10);
-pTableDetails = ds_grid_create(180, 10);
-pTableRecSize = 48;
+pTable         = ds_grid_create(18, 10);
+pTableDetails  = ds_grid_create(180, 10);
+pTableRecSize  = 48;
+zoomMode       = 0;
+choosenElement = 0;
+choosenAlpha   = 0;
+modeAlpha      = 0.2;
+modeX          = 50;
+tempQ          = 0;
+drawPanel      = false;
+drawWidth      = 0;
+drawAlpha      = 0;
+drawDetailAlpha[0] = 0;
+drawDetailAlpha[1] = 0;
+drawDetailAlpha[2] = 0;
+clickMode = "normal";
+q           = false;
+qA           = 0;
+tableAlpha   = 1;
+answersRight = 0;
+answersWrong = 0;
+answersRemain = 0;
+percents = 0;
+cAlpha = 0.5;
+selectedOption = -1;
+
+for (i = 0; i &lt; 150; i++)
+{
+eAlpha[i] = 0;
+}
+
+tableMode = 0;
+tableName[0, 0] = "Procvičovat:";
+tableOptions[0, 0] = "Značka &gt; Název";
+tableOptions[0, 1] = "Název  &gt; Značka";
+
+choosenList = ds_list_create();
+choosenList2 = ds_list_create();
 
 
 for (i = 0; i &lt; 10; i++) 
@@ -49,80 +84,109 @@ for (i = 1; i &lt; 17; i++)
     {
      scrSetElementDetail(i, detailsEnum.isElement, false);   
     }
-for (i = 20; i &lt; 29; i++)
+for (i = 20; i &lt; 30; i++)
     {
      scrSetElementDetail(i, detailsEnum.isElement, false);   
     }
-for (i = 38; i &lt; 47; i++)
+for (i = 38; i &lt; 48; i++)
     {
      scrSetElementDetail(i, detailsEnum.isElement, false);   
     }
-scrSetElementDetail(0, detailsEnum.name, "Vodík");
-scrSetElementDetail(0, detailsEnum.tag, "H");
-scrSetElementDetail(0, detailsEnum.elementType, "non-metal");
-//show_message(string(scrGetElementDetail(0, detailsEnum.name)));
-
-scrTransformTable();
-
-//http_get("
-
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="7" enumb="62">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Get and decode JSON
-
-show_message("ew");
-
-json = async_load[? "result"];
-map = json_decode(json);
-
-if (map == -1) {show_message("Wiki API is down");}
-
-if (ds_map_exists(map, "HYDROGEN"))
-    {
+scrSetElementDetail(92, detailsEnum.isElement, false);  
+scrSetElementDetail(110, detailsEnum.isElement, false);  
      
- //    q = ds_map_find_next(map, "HYDROGEN");
-     //ds_map_read
-  //   show_message(q);
-    }
-    
-var resultMap = map;
- var list = ds_map_find_value(resultMap, "HYDROGEN");
- var size = ds_list_size(list);
- show_message(size);
- for (var n = 0; n &lt; ds_list_size(list); n++;)
-    {
-    var map = ds_list_find_value(list, n);
-    var curr = ds_map_find_first(map);
-    while (is_string(curr))
-       {
-       global.Name[n] = ds_map_find_value(map, "atomic_weight");
-       show_message(" " + global.Name[n]);
-       curr = ds_map_find_next(map, curr);
-       } 
-    ds_map_destroy(map);
-    }
- ds_list_destroy(list);
- ds_map_destroy(resultMap);
+// Manaual data - wiki JSON sucks, we support offline mode.
+scrElementSetMatrix(0, "Vodík", "non-metal", "1.0079", "H");
+scrElementSetMatrix(17, "Helium", "gas", "4.0026", "He");
+scrElementSetMatrix(18, "Lithium", "alkalic-metal", "6.94", "Li");
+scrElementSetMatrix(19, "Berilium", "alkalic-metal-ground", "9.0121", "Be");
+scrElementSetMatrix(30, "Bor", "metalloid", "10.81", "B");
+scrElementSetMatrix(31, "Uhlík", "non-metal", "12.011", "C");
+scrElementSetMatrix(32, "Dusík", "non-metal", "14.007", "N");
+scrElementSetMatrix(33, "Kyslík", "non-metal", "15.999", "O");
+scrElementSetMatrix(34, "Fluor", "halogenid", "18.998", "F");
+scrElementSetMatrix(35, "Neon", "gas", "20.1797", "Ne");
+scrElementSetMatrix(36, "Sodík", "alkalic-metal", "22.989", "Na");
+scrElementSetMatrix(37, "Hořčík", "alkalic-metal-ground", "24.305", "Mg");
+scrElementSetMatrix(48, "Hliník", "alkalic-metal-ground", "26.981", "Al");
+scrElementSetMatrix(49, "Křemík", "metalloid", "28.085", "Si");
+scrElementSetMatrix(50, "Fosfor", "non-metal", "30.973", "P");
+scrElementSetMatrix(51, "Síra", "non-metal", "32.06", "S");
+scrElementSetMatrix(52, "Chlor", "halogenid", "35.45", "Cl");
+scrElementSetMatrix(53, "Argon", "gas", "39.948", "Ar");
+scrElementSetMatrix(54, "Draslík", "alkalic-metal", "39.0983", "K");
+scrElementSetMatrix(55, "Vápník", "special", "40.078", "Ca");
+scrElementSetMatrix(56, "Skandium", "metal", "44.955", "Sc");
+scrElementSetMatrix(57, "Titan", "metal", "47.867", "Ti");
+scrElementSetMatrix(58, "Vanad", "metal", "50.9415", "V");
+scrElementSetMatrix(59, "Chrom", "metal", "51.9961", "Cr");
+scrElementSetMatrix(60, "Mangan", "metal", "54.938", "Mn");
+scrElementSetMatrix(61, "Železo", "metal", "55.845", "Fe");
+scrElementSetMatrix(62, "Kobalt", "metal", "58.933", "Co");
+scrElementSetMatrix(63, "Nikl", "metal", "58.6934", "Ni");
+scrElementSetMatrix(64, "Měď", "metal", "63.546", "Cu");
+scrElementSetMatrix(65, "Zinek", "metal", "65.38", "Zn");
+scrElementSetMatrix(66, "Galium", "alkalic-metal-ground", "69.723", "Ga");
+scrElementSetMatrix(67, "Germanium", "metalloid", "72.63", "Ge");
+scrElementSetMatrix(68, "Arzen", "metalloid", "74.921", "As");
+scrElementSetMatrix(69, "Selen", "non-metal", "78.971", "Se");
+scrElementSetMatrix(70, "Brom", "halogenid", "79.904", "Br");
+scrElementSetMatrix(71, "Krypton", "gas", "83.798", "Kr");
+scrElementSetMatrix(72, "Rubidium", "alkalic-metal", "85.4678", "Rb");
+scrElementSetMatrix(73, "Stroncium", "special", "87.62", "Sr");
+scrElementSetMatrix(74, "Yttrium", "metal", "89.62", "Y");
+scrElementSetMatrix(75, "Zirkonium", "metal", "91.224", "Zr");
+scrElementSetMatrix(76, "Niob", "metal", "92.90637", "Nb");
+scrElementSetMatrix(77, "Molybden", "metal", "95.95", "Mo");
+scrElementSetMatrix(78, "Technecium", "metal", "98", "Tc");
+scrElementSetMatrix(79, "Ruthenium", "metal", "101.07", "Ru");
+scrElementSetMatrix(80, "Rhodium", "metal", "102.9", "Rh");
+scrElementSetMatrix(81, "Palladium", "metal", "106.42", "Pd");
+scrElementSetMatrix(82, "Stříbro", "metal", "107.8682", "Ag");
+scrElementSetMatrix(83, "Kadmium", "metal", "112.414", "Cd");
+scrElementSetMatrix(84, "Indium", "alkalic-metal-ground", "114.818", "In");
+scrElementSetMatrix(85, "Cín", "alkalic-metal-ground", "118.710", "Sn");
+scrElementSetMatrix(86, "Antimon", "metalloid", "121.760", "Sb");
+scrElementSetMatrix(87, "Tellur", "metalloid", "127.60", "Te");
+scrElementSetMatrix(88, "Jod", "halogenid", "126.90", "I");
+scrElementSetMatrix(89, "Xenon", "gas", "131.293", "Xe");
+scrElementSetMatrix(90, "Cesium", "alkalic-metal", "132.90", "Cs");
+scrElementSetMatrix(91, "Baryum", "special", "137.327", "Ba");
+scrElementSetMatrix(93, "Hafnium", "metal", "178.49", "Hf");
+scrElementSetMatrix(94, "Tantal", "metal", "180.94", "Ta");
+scrElementSetMatrix(95, "Wolfram", "metal", "183.84", "W");
+scrElementSetMatrix(96, "Rhenium", "metal", "186.207", "Re");
+scrElementSetMatrix(97, "Osmium", "metal", "190.23", "Os");
+scrElementSetMatrix(98, "Iridium", "metal", "192.217", "Ir");
+scrElementSetMatrix(99, "Platina", "metal", "195.084", "Pt");
+scrElementSetMatrix(100, "Zlato", "metal", "196.96", "Au");
+scrElementSetMatrix(101, "Rtuť", "metal", "200.59", "Hg");
+scrElementSetMatrix(102, "Thalium", "alkalic-metal-ground", "204.38", "Tl");
+scrElementSetMatrix(103, "Olovo", "alkalic-metal-ground", "207.2", "Pb");
+scrElementSetMatrix(104, "Bismut", "alkalic-metal-ground", "208.98", "Bi");
+scrElementSetMatrix(105, "Polonium", "metalloid", "209.01", "Po");
+scrElementSetMatrix(106, "Astat", "halogenid", "210.12", "At");
+scrElementSetMatrix(107, "Radon", "gas", "222", "Rn");
+scrElementSetMatrix(108, "Francium", "alkalic-metal", "223", "Fr");
+scrElementSetMatrix(109, "Radium", "special", "226", "Ra");
+scrElementSetMatrix(111, "Rutherfordium", "metal", "267", "Rf");
+scrElementSetMatrix(112, "Dubnium", "metal", "268", "Rf");
+scrElementSetMatrix(113, "Seaborgium", "metal", "271", "Rf");
+scrElementSetMatrix(114, "Bohrium", "metal", "272", "Rf");
+scrElementSetMatrix(115, "Hassium", "metal", "270", "Rf");
+scrElementSetMatrix(116, "Meitnerium", "metal", "276", "Rf");
+scrElementSetMatrix(117, "Darmstadium", "metal", "281", "Rf");
+scrElementSetMatrix(118, "Roentgenium", "metal", "280", "Rf");
+scrElementSetMatrix(119, "Rutherfordium", "metal", "285", "Rf");
+scrElementSetMatrix(120, "Nihonium", "alkalic-metal-ground", "284", "Nh");
+scrElementSetMatrix(121, "Flerovium", "alkalic-metal-ground", "289", "Fl");
+scrElementSetMatrix(122, "Moscovium", "alkalic-metal-ground", "288", "Mc");
+scrElementSetMatrix(123, "Livermonium", "alkalic-metal-ground", "293", "Lv");
+scrElementSetMatrix(124, "Tennessine", "halogenid", "294", "Ts");
+scrElementSetMatrix(125, "Oganesson", "gas", "294", "Og");
+
+
+scrTransformTable(x, y, 64);
 </string>
           </argument>
         </arguments>
@@ -149,8 +213,10 @@ var resultMap = map;
 
 xx = x;
 yy = y;
+randomize();
 
 // Pagination
+clr(c_black, tableAlpha);
 fnt(fntArialBold, 1);
 for (i = 0; i &lt; 18; i++)
     {
@@ -161,6 +227,7 @@ for (i = 0; i &lt; 7; i++)
      draw_text(xx - 32, yy  + (i * pTableRecSize) + (pTableRecSize / 2), string(i+1));
     }
 fnt();
+protonNumber = 0;
 
 for (i = 0; i &lt; 7; i++) // Draw all colums 
     {
@@ -170,32 +237,77 @@ for (i = 0; i &lt; 7; i++) // Draw all colums
          // Draw only if index is element
          if (scrGetElementDetail(index, detailsEnum.isElement))
             {
+             protonNumber++;
+             draw_set_alpha(tableAlpha);
              c = scrGetColorFromElementType(scrGetElementDetail(index, detailsEnum.elementType));
              if (c != "undefinied")
              {
              draw_rectangle_colour(xx, yy, xx + pTableRecSize, yy + pTableRecSize, c, c, c, c, false);
+             if (ds_list_find_index(choosenList, scrGetElementDetail(index, detailsEnum.name)) != -1) {eAlpha[index] = lerp(eAlpha[index], 1, 0.1);} else {eAlpha[index] = lerp(eAlpha[index], 0, 0.1);}
+             draw_set_alpha(min(eAlpha[index], tableAlpha));
+             draw_rectangle_colour(xx, yy, xx + pTableRecSize, yy + pTableRecSize, c_green, c_green, c_green, c_green, false);             
              }
-             draw_rectangle(xx, yy, xx + pTableRecSize, yy + pTableRecSize, true);
+              draw_set_alpha(tableAlpha);
+             draw_rectangle_width(xx, yy, xx + pTableRecSize, yy + pTableRecSize, true, 1);
+             
+
              
              // Hover event
              if (mouse_in(xx, yy, xx + pTableRecSize, yy + pTableRecSize))
                 {
-                 clr(c_yellow, 0.3);
-                 draw_rectangle(xx, yy, xx + pTableRecSize, yy + pTableRecSize, false);
-                 clr();
+                 clr(c_yellow, tableAlpha / 2);
+                 draw_rectangle(xx + 1, yy + 1, xx + pTableRecSize, yy + pTableRecSize, false);
+                 clr(c_black, tableAlpha);
                  
                  // Click event
                  if (device_mouse_check_button_pressed(0, mb_left))
                     {
-                     scrTransformTable(x + 600, yy, 16);
-                     scrDrawDetails(i);
-                 //    oCamera.xx = mouse_x + view_xview;
-                   // oCamera.yy = mouse_y + view_yview;
+                     if (zoomMode == 0)
+                     {
+                     if (clickMode == "normal")
+                     {
+                     scrTransformTable(x + 800, yy, 16);
+                     zoomMode       = 1;
+                     choosenElement = i;
+                     }
+                     
+                     if (clickMode == "chooseElements")
+                        {
+                         if (ds_list_find_index(choosenList, scrGetElementDetail(index, detailsEnum.name)) == -1)
+                            {
+                             ds_list_add(choosenList, scrGetElementDetail(index, detailsEnum.name));
+                             ds_list_add(choosenList2, scrGetElementDetail(index, detailsEnum.tag));
+                            }
+                         else
+                            {
+                             b = ds_list_find_index(choosenList, scrGetElementDetail(index, detailsEnum.name));
+                             ds_list_delete(choosenList, b);
+                             ds_list_delete(choosenList2, b);
+                            }
+                        }
+                     }
+                     else {scrTransformTable(xstart, ystart, 64); zoomMode = 0;}
                     }
                 }
                 
-             fnt(fntArial, 1);
+             f = fntArialBold;
+             if (round(pTableRecSize) &lt; 48) {f = fntArial;}
+             
+             fnt(f, 1);
              draw_text(xx + (pTableRecSize / 2), yy + (pTableRecSize / 2), scrGetElementDetail(index, detailsEnum.tag));
+             u = string_width(scrGetElementDetail(index, detailsEnum.tag));
+             
+             if (round(pTableRecSize) &gt; 48)
+             {
+             
+             fnt(fntArialTiny);
+             draw_text(xx + (pTableRecSize / 2) - u / 2 - 10, yy + (pTableRecSize / 2), protonNumber);
+              fnt(fntArialSmall);
+             draw_text(xx + (pTableRecSize / 2) - string_width(scrGetElementDetail(index, detailsEnum.molarMass)) / 2, yy + (pTableRecSize / 2) - 30, scrGetElementDetail(index, detailsEnum.molarMass));             
+             fnt(fntArial);
+             draw_text(xx + (pTableRecSize / 2) - 30, yy + (pTableRecSize / 2) + 10, scrGetElementDetail(index, detailsEnum.name));                     
+             }
+             
              fnt();
             }         
          xx += pTableRecSize;
@@ -209,6 +321,143 @@ if (abs(ts-pTableRecSize) &gt; 0.1 || distance_to_point(tx, ty) &gt; 1)
      if (distance_to_point(tx, ty) &gt; 1) {x = lerp(x, tx, 0.1);}
      pTableRecSize = lerp(pTableRecSize, ts, 0.1);
     }
+    
+if (zoomMode == 1) {choosenAlpha = lerp(choosenAlpha, 1, 0.05);} else {choosenAlpha = lerp(choosenAlpha, 0, 0.2);}
+
+clr(c_black, choosenAlpha);
+scrDrawElementDetails(choosenElement);
+clr(c_black, tableAlpha);
+
+// Draw mode controll
+if (mouse_in(1100, 0, 1300, 40))
+    {
+     modeX = lerp(modeX, 0, 0.1);
+    }
+else {modeX = lerp(modeX, 50, 0.1); tempQ = 0;}
+if (modeX &lt; 5) {tempQ = lerp(tempQ, 100, 0.1);}
+
+
+if (zoomMode == 0) {cAlpha = lerp(cAlpha, 0.5, 0.1);} else {cAlpha = lerp(cAlpha, 0, 0.1);}
+
+clr(c_black, min(0.5, tableAlpha, cAlpha));
+draw_circle(20 + drawWidth, 20, 16, false);
+if (clickMode = "chooseElements") {draw_text(20 + drawWidth + 20, 10, "Vyber si prvky, které si chceš procvičit.");}
+fnt(fntArialBold, 1);
+draw_text_transformed(20 + drawWidth, 20, "&gt;", 1, 1, -((drawWidth / 256) * 180));
+fnt();
+
+if (mouse_in(10, 10, 256, 30))
+    {
+     if (mouse_check_button_pressed(mb_left) &amp;&amp; cAlpha &gt; 0.4)
+        {
+         drawPanel = !drawPanel;
+         if (drawPanel) {scrTransformTable(550, y, 40); selectedOption = -1;}
+         else {scrTransformTable(xstart, ystart); selectedOption = -1;}
+        }
+    }
+ 
+    
+if (drawPanel) {drawWidth = lerp(drawWidth, 256, 0.1); drawAlpha = lerp(drawAlpha, 1, 0.1);} else {drawWidth = lerp(drawWidth, 0, 0.1); drawAlpha = lerp(drawAlpha, 0, 0.1);}
+draw_set_alpha(min(tableAlpha, 0.5));
+draw_roundrect_ext(20, 20, 20 + drawWidth, 740, 32, 32, false);
+clr(c_white, min(drawAlpha, tableAlpha));
+
+fnt(fntArialBold2);
+draw_text(22, 80, tableName[tableMode, 0]);
+yy = 110;
+fnt(fntArial2);
+for (i = 0; i &lt; 2; i++)
+    {     
+     if (mouse_in(20, yy - 5, 256, yy + 17) &amp;&amp; drawPanel)
+        {
+         drawDetailAlpha[i] = lerp(drawDetailAlpha[i], 0.4, 0.1);
+         if (mouse_check_button_pressed(mb_left)) {clickMode = "chooseElements"; drawPanel = false; scrTransformTable(xstart, ystart);}
+         selectedOption = i;
+        }
+     else {{ drawDetailAlpha[i] = lerp(drawDetailAlpha[i], 0, 0.1);}}
+     
+     clr(c_black, drawDetailAlpha[i]);
+     draw_roundrect(20, yy, 256, yy + 25, false);
+     clr(c_white, drawAlpha);
+        
+     draw_text(30, yy, tableOptions[tableMode, i]);
+     yy += 25;
+    }
+
+clr();
+if (mouse_check_button_pressed(mb_right) &amp;&amp; clickMode == "chooseElements" &amp;&amp; q == 0)
+    {
+     if (ds_list_size(choosenList) &gt; 0)
+     {
+     scrNext();
+     scrSetup();
+     }
+     else {clickMode = "normal";}
+    }
+    
+if (q || qA &gt; 0.02)
+    {
+        if (q) {qA = lerp(qA, 0.8, 0.1); tableAlpha = lerp(tableAlpha, 0, 0.1);}
+        clr(c_black, qA);
+        draw_rectangle(0, 0, view_wview, view_hview, false);
+        
+        clr(c_black, min(qA*2, 0.9));
+        draw_roundrect_ext(512 - 128, 200, 768 + 128, 400, 64, 64, false); 
+    
+        clr(c_white, min(qA*2, 0.9));
+        
+        if (q == 1)
+        {
+         str = keyboard_string;
+         fnt(fntArialHuge);
+         draw_text(640 - string_width(targetStr) / 2, 220, targetStr);
+         
+         fnt(fntArialBig);
+         draw_text(640 - string_width(str) / 2, 300, str);
+         
+         fnt(fntArialBold);
+         draw_text(400, 220, "Správně: " + answersRight);
+         draw_text(400, 240, "Špatně : " + answersWrong);
+         draw_text(400, 260, "Zbývá  : " + answersRemain);
+        }
+        else {fnt(fntArialHuge); draw_text(640 - string_width(string(percents) + "% správně") / 2, 275, percents + "% správně");}
+         
+          if (keyboard_check_pressed(vk_enter))
+            {
+             if (q != 2)
+             {
+             if (str == targetStr2)
+                {
+                 answersRight++;
+                }
+             else
+                {
+                answersWrong++;
+                }
+             answersRemain--;
+             q = false;
+             
+             ds_list_delete(choosenList2, targetI);
+             ds_list_delete(choosenList, targetI);
+             
+             if (!ds_list_empty(choosenList))
+                {
+                scrNext();
+                }
+             else
+                {
+                percents = floor((answersRight / answersRemainS) * 100);
+                q = 2;            
+                }
+             }
+             else {q = false; clickMode = "normal";}
+            }
+  
+    }
+if (!q) {qA = max(lerp(qA, -0.02, 0.1), 0); tableAlpha = lerp(tableAlpha, 1, 0.1);}
+clr();
+
+//scale_canvas(1280, 768, browser_width, browser_height, false);
 </string>
           </argument>
         </arguments>

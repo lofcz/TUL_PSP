@@ -8,23 +8,37 @@
   </NewExtensions>
   <sounds name="sound"/>
   <sprites name="sprites"/>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background0</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\drawAPI.gml</script>
     <script>scripts\scrSetElementDetail.gml</script>
+    <script>scripts\scrElementSetMatrix.gml</script>
     <script>scripts\scrGetElementDetail.gml</script>
     <script>scripts\scrGet1DArrayIndex.gml</script>
     <script>scripts\clr.gml</script>
+    <script>scripts\scrDrawElementDetails.gml</script>
     <script>scripts\fnt.gml</script>
     <script>scripts\scrGetColorFromElementType.gml</script>
+    <script>scripts\scrNext.gml</script>
     <script>scripts\scrTransformTable.gml</script>
+    <script>scripts\scrSetup.gml</script>
     <script>scripts\mouse_in.gml</script>
-    <script>scripts\scrDrawDetails.gml</script>
+    <script>scripts\scale_canvas.gml</script>
   </scripts>
-  <shaders name="shaders"/>
   <fonts name="fonts">
     <font>fonts\fntArial</font>
+    <font>fonts\fntArial2</font>
+    <font>fonts\fntArialText</font>
+    <font>fonts\fntArialH1</font>
+    <font>fonts\fntArialBig</font>
+    <font>fonts\fntArialHuge</font>
+    <font>fonts\fntArialSmall</font>
+    <font>fonts\fntArialTiny</font>
     <font>fonts\fntArialBold</font>
+    <font>fonts\fntArialBold2</font>
   </fonts>
   <objects name="objects">
     <object>objects\oController</object>
@@ -33,6 +47,16 @@
   <rooms name="rooms">
     <room>rooms\room0</room>
   </rooms>
+  <constants number="8">
+    <constant name="c_metal">make_color_rgb(227, 200, 254)</constant>
+    <constant name="c_special">make_color_rgb(251, 195, 9)</constant>
+    <constant name="c_halogenid">make_color_rgb(10, 192, 234)</constant>
+    <constant name="c_metalloid">make_color_rgb(207, 254, 255)</constant>
+    <constant name="c_alkalicMetalGround">make_color_rgb(155, 206, 250)</constant>
+    <constant name="c_alkalicMetal">make_color_rgb(251, 133, 129)</constant>
+    <constant name="c_gas">make_color_rgb(255, 248, 0)</constant>
+    <constant name="c_nonMetal">make_color_rgb(195, 252, 123)</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
