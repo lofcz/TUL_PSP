@@ -35,14 +35,14 @@ name, number, tag, isElement, bacColor, elementType, molarMass, overallAlpha, ke
 }
 
 // Define main data array
+draw_set_font(fntArial);
+
 for (i = 0; i &lt; 180; i++)
     {
-     for (k = 0; k &lt; 14; k++)
+     for (k = 0; k &lt; 20; k++)
          {
           pTableDetails[i, k] = 0;
-         }
-      pTableDetails[i, 0] = "";
-      pTableDetails[i, 2] = "";            
+         }       
     }
     
 rotateAngle         = 0;
@@ -95,6 +95,9 @@ tY                  = 0;
 tX                  = 0;
 I                   = 0;
 hintAlpha           = 0;
+ts = 0;
+tx = 0
+ty = 0;
 
 ra2 = 0;
 
@@ -263,7 +266,8 @@ scrElementSetMatrix(125, "Oganesson", "gas", "294", "Og", 0, 350, 439, "", "7s2 
 scrTransformTable(x, y, 64);
 
 // Pre-compute optimize
-fnt(fntArialText);
+
+draw_set_font(fntArialText);
 for (i = 0; i &lt; 150; i++)
 {
 scrDrawElementDetails(i)
