@@ -7,5 +7,5 @@ di = detailsEnum.name;
 if (argument_count > 0) {e  = argument[0];}
 if (argument_count > 1) {di = argument[1];}
 
-return (pTableDetails[#e, di]);
+return (pTableDetails[e, di]);
 
